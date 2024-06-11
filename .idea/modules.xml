@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/telze-project.iml" filepath="$PROJECT_DIR$/telze-project.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Telze.iml" filepath="$PROJECT_DIR$/Telze.iml" />
     </modules>
   </component>
 </project>
