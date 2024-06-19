@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Telze.iml" filepath="$PROJECT_DIR$/Telze.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android/telze_android.iml" filepath="$PROJECT_DIR$/android/telze_android.iml" />
     </modules>
   </component>
 </project>
