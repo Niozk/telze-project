@@ -14,7 +14,7 @@ class _TelzeHomePageState extends State<TelzeHomePage> {
   static const List<Widget> _pages = <Widget>[
     Center(child: Text('Page 1')),
     Center(child: Text('Page 2')),
-    Center(child: Text('Page 3')),
+    Center(child: Text('Page 333')),
     Center(child: Text('Page 4')),
     Center(child: Text('Page 5')),
   ];
@@ -58,20 +58,20 @@ class _TelzeHomePageState extends State<TelzeHomePage> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Search',
+            icon: Icon(Icons.hiking),
+            label: 'Stappen',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
+            icon: Icon(Icons.bar_chart),
+            label: 'Statistieken',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.military_tech),
+            label: 'Prestaties',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
-            label: 'Settings',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.notifications),
-            label: 'Notifications',
+            label: 'Instellingen',
           ),
         ],
       ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:telze/telze_home_page.dart';
+import 'package:telze/pages/telze_home_page.dart';
 
 void main() {
   runApp(const TelzeApp());
