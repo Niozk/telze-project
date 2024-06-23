@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:telze/components/weather_widget.dart';
 
 class TelzeHomePage extends StatefulWidget {
   const TelzeHomePage({super.key});
@@ -11,12 +12,12 @@ class _TelzeHomePageState extends State<TelzeHomePage> {
   int _selectedIndex = 0;
   final PageController _pageController = PageController();
 
-  static const List<Widget> _pages = <Widget>[
-    Center(child: Text('Page 1')),
-    Center(child: Text('Page 2')),
-    Center(child: Text('Page 333')),
-    Center(child: Text('Page 4')),
-    Center(child: Text('Page 5')),
+  static final List<Widget> _pages = <Widget>[
+    const WeatherWidget(),
+    const Center(child: Text('Page 2')),
+    const Center(child: Text('Page 3')),
+    const Center(child: Text('Page 4')),
+    const Center(child: Text('Page 5')),
   ];
 
   void _onItemTapped(int index) {
@@ -34,7 +35,10 @@ class _TelzeHomePageState extends State<TelzeHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Telze'),
+        title: const Text(
+          'Telze',
+          style: TextStyle(color: Colors.white),
+        ),
         backgroundColor: Colors.green,
       ),
       body: PageView(
