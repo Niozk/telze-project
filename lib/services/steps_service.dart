@@ -3,7 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class StepsService {
   Stream<StepCount>? _stepCountStream;
-  int _stepsToday = 0;
+  int _stepsTotal = 0;
 
   void startListening(Function(int) onUpdate) {
     _stepCountStream = Pedometer.stepCountStream;
@@ -11,7 +11,7 @@ class StepsService {
     _stepCountStream!.listen((StepCount? event) {
       if (event != null) {
         _updateSteps(event.steps);
-        onUpdate(_stepsToday);
+        onUpdate(_stepsTotal);
       }
     });
 
@@ -19,21 +19,20 @@ class StepsService {
   }
 
   void _updateSteps(int steps) async {
-    _stepsToday = steps;
+    _stepsTotal = steps;
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setInt('steps_today', _stepsToday);
-    print('Updated steps: $_stepsToday');
+    await prefs.setInt('steps_total', _stepsTotal);
   }
 
   void _fetchSavedSteps() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    int savedSteps = prefs.getInt('steps_today') ?? 0;
-    _stepsToday = savedSteps;
+    int savedSteps = prefs.getInt('steps_total') ?? 0;
+    _stepsTotal = savedSteps;
   }
 
-  Future<int> getStepsToday() async {
+  Future<int> getStepsTotal() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    _stepsToday = prefs.getInt('steps_today') ?? 0;
-    return _stepsToday;
+    _stepsTotal = prefs.getInt('steps_total') ?? 0;
+    return _stepsTotal;
   }
 }

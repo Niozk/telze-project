@@ -22,7 +22,7 @@ class _StepsWidgetState extends State<StepsWidget> {
   }
 
   Future<void> _initSteps() async {
-    _currentSteps = await _stepsService.getStepsToday();
+    _currentSteps = await _stepsService.getStepsTotal();
     setState(() {});
   }
 
@@ -57,9 +57,6 @@ class _StepsWidgetState extends State<StepsWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _showPermissionDeniedMessage ? null : AppBar(
-        title: const Text('Stappenteller'),
-      ),
       body: _buildBody(),
     );
   }
@@ -81,7 +78,7 @@ class _StepsWidgetState extends State<StepsWidget> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text(
-              'Stappen van vandaag:',
+              'Stappen genomen:',
               style: TextStyle(fontSize: 24),
             ),
             Text(
