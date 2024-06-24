@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:telze/pages/telze_weather_page.dart';
 import 'package:telze/pages/telze_steps_page.dart';
 import 'package:telze/pages/telze_stats_page.dart';
+import 'package:telze/pages/telze_achievement_page.dart';
+import 'package:telze/services/steps_service.dart';
 
 class TelzeHomePage extends StatefulWidget {
   const TelzeHomePage({super.key});
@@ -13,13 +15,26 @@ class TelzeHomePage extends StatefulWidget {
 class _TelzeHomePageState extends State<TelzeHomePage> {
   int _selectedIndex = 0;
   final PageController _pageController = PageController();
+  int _currentSteps = 0;
 
-  static final List<Widget> _pages = <Widget>[
+  final StepsService _stepsService = StepsService();
+
+  @override
+  void initState() {
+    super.initState();
+    _initSteps();
+  }
+
+  Future<void> _initSteps() async {
+    _currentSteps = await _stepsService.getStepsTotal();
+    setState(() {});
+  }
+
+  List<Widget> get _pages => <Widget>[
     const WeatherPage(),
     const StepsPage(),
     const StatsPage(),
-    const Center(child: Text('Page 4')),
-    const Center(child: Text('Page 5')),
+    AchievementPage(currentSteps: _currentSteps),
   ];
 
   void _onItemTapped(int index) {
@@ -74,10 +89,6 @@ class _TelzeHomePageState extends State<TelzeHomePage> {
           BottomNavigationBarItem(
             icon: Icon(Icons.military_tech),
             label: 'Prestaties',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Instellingen',
           ),
         ],
       ),
