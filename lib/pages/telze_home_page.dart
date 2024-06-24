@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:telze/components/weather_widget.dart';
+import 'package:telze/pages/telze_weather_page.dart';
+import 'package:telze/pages/telze_steps_page.dart';
 
 class TelzeHomePage extends StatefulWidget {
   const TelzeHomePage({super.key});
@@ -13,8 +14,8 @@ class _TelzeHomePageState extends State<TelzeHomePage> {
   final PageController _pageController = PageController();
 
   static final List<Widget> _pages = <Widget>[
-    const WeatherWidget(),
-    const Center(child: Text('Page 2')),
+    const WeatherPage(),
+    const StepsPage(),
     const Center(child: Text('Page 3')),
     const Center(child: Text('Page 4')),
     const Center(child: Text('Page 5')),

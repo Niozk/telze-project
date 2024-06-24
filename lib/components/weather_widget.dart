@@ -45,7 +45,7 @@ class _WeatherWidgetState extends State<WeatherWidget> {
   Future<void> _requestPermissionAndGetLocation() async {
     bool serviceEnabled;
     loc.PermissionStatus permissionGranted;
-    loc.LocationData locationData;
+    loc.LocationData? locationData;
 
     serviceEnabled = await location.serviceEnabled();
     if (!serviceEnabled) {
@@ -59,6 +59,7 @@ class _WeatherWidgetState extends State<WeatherWidget> {
     if (permissionGranted == loc.PermissionStatus.denied) {
       permissionGranted = await location.requestPermission();
       if (permissionGranted != loc.PermissionStatus.granted) {
+        _completer.completeError('Geef ons aub toegang tot uw locatie');
         return;
       }
     }
@@ -68,7 +69,7 @@ class _WeatherWidgetState extends State<WeatherWidget> {
       Weather weather = await WeatherService().fetchWeatherByLocation(locationData.latitude!, locationData.longitude!);
       _completer.complete(weather);
     } catch (error) {
-      _completer.completeError(error);
+      _completer.completeError('Iets ging verkeerd, probeer het later opnieuw');
     }
   }
 
@@ -112,7 +113,7 @@ class _WeatherWidgetState extends State<WeatherWidget> {
             ),
           );
         } else {
-          return const Center(child: Text('Geen data'));
+          return const Center(child: CircularProgressIndicator());
         }
       },
     );
