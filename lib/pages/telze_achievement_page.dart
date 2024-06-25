@@ -26,33 +26,41 @@ class AchievementPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            const SizedBox(height: 40),
-            const Text(
-              'Prestaties',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 20),
-            Expanded(
-              child: ListView.builder(
-                itemCount: achievements.length,
-                itemBuilder: (context, index) {
-                  final achievement = achievements[index];
-                  final isUnlocked = currentSteps >= achievement.stepsRequired;
+    double titleFontSize = MediaQuery.of(context).size.width < 700 ? 24 : 40;
 
-                  return AchievementWidget(
-                    achievement: achievement,
-                    isUnlocked: isUnlocked,
-                  );
-                },
-              ),
+    return Scaffold(
+      body: Center(
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          constraints: const BoxConstraints(maxWidth: 500),
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                const SizedBox(height: 100),
+                Text(
+                  'Prestaties',
+                  style: TextStyle(fontSize: titleFontSize, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 10),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: achievements.map((achievement) {
+                        final isUnlocked = currentSteps >= achievement.stepsRequired;
+                        return AchievementWidget(
+                          achievement: achievement,
+                          isUnlocked: isUnlocked,
+                          fontSize: MediaQuery.of(context).size.width < 700 ? 20 : 32,
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

@@ -15,11 +15,13 @@ class Achievement {
 class AchievementWidget extends StatelessWidget {
   final Achievement achievement;
   final bool isUnlocked;
+  final double fontSize;
 
   const AchievementWidget({
     super.key,
     required this.achievement,
     required this.isUnlocked,
+    required this.fontSize,
   });
 
   @override
@@ -32,11 +34,17 @@ class AchievementWidget extends StatelessWidget {
       title: Text(
         achievement.title,
         style: TextStyle(
+          fontSize: fontSize,
           color: isUnlocked ? Colors.black : Colors.grey,
           fontWeight: FontWeight.bold,
         ),
       ),
-      subtitle: Text(achievement.description),
+      subtitle: Text(
+        achievement.description,
+        style: TextStyle(
+          fontSize: fontSize - 6,
+        ),
+      ),
     );
   }
 }

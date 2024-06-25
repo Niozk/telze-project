@@ -15,9 +15,10 @@ class _WeatherWidgetState extends State<WeatherWidget> {
   final loc.Location location = loc.Location();
   final Completer<Weather> _completer = Completer<Weather>();
 
-  TextStyle weatherTextStyle({bool bold = false}) {
+  TextStyle weatherTextStyle(BuildContext context, {bool bold = false}) {
+    double fontSize = MediaQuery.of(context).size.width < 700 ? 20 : 32;
     return TextStyle(
-      fontSize: 18,
+      fontSize: fontSize,
       color: Colors.white,
       fontWeight: bold ? FontWeight.bold : FontWeight.normal,
     );
@@ -75,46 +76,58 @@ class _WeatherWidgetState extends State<WeatherWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<Weather>(
-      future: futureWeather,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
-        } else if (snapshot.hasData) {
-          final weather = snapshot.data!;
-          String walkMessage = getWalkMessage(weather);
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        bool isWideScreen = constraints.maxWidth >= 700;
 
-          return Container(
-            margin: const EdgeInsets.symmetric(vertical: 80, horizontal: 50),
-            child: Container(
-              padding: const EdgeInsets.all(20),
-              color: Colors.green,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Row(
+        return FutureBuilder<Weather>(
+          future: futureWeather,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return Center(child: Text('Error: ${snapshot.error}'));
+            } else if (snapshot.hasData) {
+              final weather = snapshot.data!;
+              String walkMessage = getWalkMessage(weather);
+
+              return Container(
+                margin: isWideScreen
+                    ? const EdgeInsets.symmetric(vertical: 80, horizontal: 100)
+                    : const EdgeInsets.symmetric(vertical: 80, horizontal: 20),
+                child: Container(
+                  padding: const EdgeInsets.all(20),
+                  color: Colors.green,
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Icon(Icons.location_city, color: Colors.white),
-                      const SizedBox(width: 4),
-                      Text(weather.city, style: weatherTextStyle(bold: true), textAlign: TextAlign.center),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.location_city,
+                            color: Colors.white,
+                            size: MediaQuery.of(context).size.width < 700 ? 20 : 32, // Adjust size based on screen width
+                          ),
+                          const SizedBox(width: 4),
+                          Text(weather.city, style: weatherTextStyle(context, bold: true), textAlign: TextAlign.center),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      Text(weather.description, style: weatherTextStyle(context), textAlign: TextAlign.center,),
+                      Text('${weather.temperature.toStringAsFixed(1)}°C', style: weatherTextStyle(context), textAlign: TextAlign.center,),
+                      Text('Vochtigheid: ${weather.humidity}%', style: weatherTextStyle(context), textAlign: TextAlign.center,),
+                      const SizedBox(height: 16),
+                      Text(walkMessage, style: weatherTextStyle(context), textAlign: TextAlign.center,),
                     ],
                   ),
-                  const SizedBox(height: 8),
-                  Text(weather.description, style: weatherTextStyle(), textAlign: TextAlign.center,),
-                  Text('${weather.temperature.toStringAsFixed(1)}°C', style: weatherTextStyle(), textAlign: TextAlign.center,),
-                  Text('Vochtigheid: ${weather.humidity}%', style: weatherTextStyle(), textAlign: TextAlign.center,),
-                  const SizedBox(height: 16),
-                  Text(walkMessage, style: weatherTextStyle(), textAlign: TextAlign.center,),
-                ],
-              ),
-            ),
-          );
-        } else {
-          return const Center(child: CircularProgressIndicator());
-        }
+                ),
+              );
+            } else {
+              return const Center(child: CircularProgressIndicator());
+            }
+          },
+        );
       },
     );
   }
